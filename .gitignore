@@ -1,5 +1,7 @@
 # Local
+configs/
 *.json
+CiscoJtapi.index
 
 # Git
 *.orig

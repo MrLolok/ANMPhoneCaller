@@ -1,9 +1,11 @@
-package org.anm.phone.call;
+package org.anm.phone.calls;
 
 import com.cisco.jtapi.extensions.CiscoCall;
 import com.cisco.jtapi.extensions.CiscoProvider;
+import org.anm.phone.calls.objects.DefaultPhoneCall;
+import org.anm.phone.calls.objects.PhoneCall;
 import org.anm.phone.observer.PhoneObserver;
-import org.anm.phone.provider.PhoneProvider;
+import org.anm.phone.provider.objects.PhoneProvider;
 
 import javax.telephony.*;
 
@@ -34,7 +36,7 @@ public class PhoneCallBuilderImpl implements PhoneCallBuilder {
     }
 
     @Override
-    public CiscoCall build() {
+    public PhoneCall build() {
         if (provider == null)
             throw new IllegalStateException("Call's provider could not be null");
         if (from == null || from.isBlank() || target == null || target.isBlank())
@@ -42,7 +44,7 @@ public class PhoneCallBuilderImpl implements PhoneCallBuilder {
 
         CiscoProvider provider = this.provider.getProvider();
         PhoneObserver observer = this.provider.getObserver();
-        CiscoCall call;
+        PhoneCall call;
 
         try {
             Address from = provider.getAddress(this.from);
@@ -54,11 +56,10 @@ public class PhoneCallBuilderImpl implements PhoneCallBuilder {
             terminal.addObserver(observer);
             observer.getTerminalChanged().waitTrue();
 
-            call = (CiscoCall) provider.createCall();
-            call.connect(terminal, from, target);
-            observer.getAddressChanged().waitTrue();
-        } catch (InvalidArgumentException | InvalidPartyException | ResourceUnavailableException |
-                 MethodNotSupportedException | PrivilegeViolationException | InvalidStateException e) {
+            CiscoCall ciscoCall = (CiscoCall) provider.createCall();
+            ciscoCall.addObserver(observer);
+            call = new DefaultPhoneCall(ciscoCall, observer, terminal, from, target);
+        } catch (InvalidArgumentException | ResourceUnavailableException | MethodNotSupportedException | PrivilegeViolationException | InvalidStateException e) {
             throw new RuntimeException("An error occurred while building a phone call", e);
         }
         return call;

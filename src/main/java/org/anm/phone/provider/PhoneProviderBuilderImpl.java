@@ -5,6 +5,8 @@ import com.cisco.jtapi.extensions.CiscoProvider;
 import org.anm.phone.config.defaults.ConfigCUCMCredentials;
 import org.anm.phone.observer.PhoneObserver;
 import org.anm.phone.observer.DefaultPhoneObserver;
+import org.anm.phone.provider.objects.DefaultPhoneProvider;
+import org.anm.phone.provider.objects.PhoneProvider;
 
 import javax.telephony.JtapiPeerUnavailableException;
 import javax.telephony.JtapiPeerFactory;

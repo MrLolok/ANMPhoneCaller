@@ -70,17 +70,36 @@
     </repositories>
 
     <dependencies>
+        <!-- Cisco JTAPI -->
         <dependency>
             <groupId>com.cisco.jtapi</groupId>
             <artifactId>jtapi</artifactId>
             <version>14</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Lombok annotations -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Jackson Core -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.14.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Jackson Module Parameter Names -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-parameter-names</artifactId>
+            <version>2.14.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

@@ -1,8 +1,11 @@
 package org.anm.phone.config;
 
-import net.ventures.servermanagement.log.LogLevel;
-import net.ventures.servermanagement.log.Logger;
-import net.ventures.servermanagement.utils.Util;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import org.anm.phone.log.LogLevel;
+import org.anm.phone.log.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +13,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 public class Config<T> {
+    public final static ObjectMapper MAPPER = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .registerModule(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES));
+
     private final T config;
 
     public Config(T config) {
@@ -37,7 +44,7 @@ public class Config<T> {
 
         Config<T> config = null;
         try {
-            config = new Config<>(Util.MAPPER.readValue(file, clazz));
+            config = new Config<>(MAPPER.readValue(file, clazz));
         } catch (IOException e) {
             Logger.log(LogLevel.ERROR, e, "Parsing error", "File: " + fileName);
             e.printStackTrace();

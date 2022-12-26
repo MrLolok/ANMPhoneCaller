@@ -1,4 +1,4 @@
-package org.anm.phone.provider;
+package org.anm.phone.provider.objects;
 
 import com.cisco.jtapi.extensions.CiscoProvider;
 import lombok.Data;
